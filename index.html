@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Minecraft World Converter</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white p-4">
+<h1 class="text-2xl font-bold mb-4">Minecraft World Converter</h1>
+
+<label class="block mb-2">Conversion Type:</label>
+<select id="conversionType" class="p-2 mb-4 rounded bg-gray-700 border border-gray-600">
+  <option value="bedrock-to-java">Bedrock → Java</option>
+  <option value="java-to-bedrock">Java → Bedrock</option>
+</select>
+
+<label class="block mb-2">World File (.zip or .mcworld):</label>
+<input id="worldFile" type="file" class="mb-4" />
+
+<button onclick="convertWorld()" class="bg-green-600 px-4 py-2 rounded">Convert</button>
+
+<pre id="output" class="bg-gray-800 p-4 mt-4 rounded overflow-auto"></pre>
+
+<script>
+function convertWorld() {
+  const fileInput = document.getElementById('worldFile');
+  const type = document.getElementById('conversionType').value;
+  const output = document.getElementById('output');
+
+  if (!fileInput.files.length) {
+    alert('Please select a world file first.');
+    return;
+  }
+
+  const fileName = fileInput.files[0].name;
+  const outName = "converted_" + fileName;
+
+  output.textContent = "Run this command in your terminal:\n\n" +
+    `java -jar chunker-cli.jar "${fileName}" "${outName}" ${type === "java-to-bedrock" ? "--to-bedrock" : "--to-java"}`;
+}
+</script>
+</body>
+</html>
